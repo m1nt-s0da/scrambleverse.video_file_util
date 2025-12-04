@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scrambleverse-video-file-util"
+version = "0.1.0"
+dependencies = [
+    "ffmpeg-python~=0.2.0",
+]
+requires-python = ">= 3.14"
+
+[tool.setuptools.packages.find]
+exclude = ["tests"]

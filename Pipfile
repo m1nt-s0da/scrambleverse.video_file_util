@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+ffmpeg-python = "*"
+
+[dev-packages]
+pillow = "*"
+pytest = "*"
+tqdm = "*"
+build = "*"
+
+[requires]
+python_version = "3.14"
+python_full_version = "3.14.0"
+
+[scripts]
+build = "python -m build"
+test = "pytest -v --tb=short"
