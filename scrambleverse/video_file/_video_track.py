@@ -18,6 +18,7 @@ class VideoTrack(TrackBase):
     frame_size: FrameSize
     avg_frame_rate: Fraction
     r_frame_rate: Fraction
+    frame_count: int
 
     def __init__(
         self,
@@ -28,6 +29,7 @@ class VideoTrack(TrackBase):
         frame_size: FrameSizeLike,
         avg_frame_rate: Fraction,
         r_frame_rate: Fraction,
+        frame_count: int,
         filters: tuple[tuple[str, tuple, dict], ...] = (),
     ):
         super().__init__(file, track_index, filters=filters)
@@ -36,6 +38,7 @@ class VideoTrack(TrackBase):
         object.__setattr__(self, "frame_size", FrameSize(frame_size))
         object.__setattr__(self, "avg_frame_rate", avg_frame_rate)
         object.__setattr__(self, "r_frame_rate", r_frame_rate)
+        object.__setattr__(self, "frame_count", frame_count)
 
     def scale(self, size: FrameSizeLike) -> VideoTrack:
         size = FrameSize(size)
@@ -47,6 +50,7 @@ class VideoTrack(TrackBase):
             frame_size=self.frame_size,
             avg_frame_rate=self.avg_frame_rate,
             r_frame_rate=self.r_frame_rate,
+            frame_count=self.frame_count,
             filters=new_filters,
         )
 
@@ -59,6 +63,7 @@ class VideoTrack(TrackBase):
             frame_size=self.frame_size,
             avg_frame_rate=self.avg_frame_rate,
             r_frame_rate=self.r_frame_rate,
+            frame_count=self.frame_count,
             filters=new_filters,
         )
 

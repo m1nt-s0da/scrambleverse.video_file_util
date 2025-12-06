@@ -24,8 +24,10 @@ class VideoFile(os.PathLike[str]):
         tracks = []
         audio_track_count = 0
         video_track_count = 0
+        duration = float(probe["format"]["duration"])
         for stream in probe["streams"]:
             if stream["codec_type"] == "video":
+                avg_frame_rate = Fraction(stream["avg_frame_rate"])
                 vt = VideoTrack(
                     file=self,
                     track_index=f"v:{video_track_count}",
@@ -34,8 +36,14 @@ class VideoFile(os.PathLike[str]):
                         int(stream["width"]),
                         int(stream["height"]),
                     ),
-                    avg_frame_rate=Fraction(stream["avg_frame_rate"]),
+                    avg_frame_rate=avg_frame_rate,
                     r_frame_rate=Fraction(stream["r_frame_rate"]),
+                    frame_count=int(
+                        stream.get(
+                            "nb_read_frames",
+                            stream.get("nb_frames", duration * float(avg_frame_rate)),
+                        )
+                    ),
                 )
                 tracks.append(vt)
                 video_track_count += 1
@@ -50,7 +58,7 @@ class VideoFile(os.PathLike[str]):
                 tracks.append(at)
                 audio_track_count += 1
         object.__setattr__(self, "path", path)
-        object.__setattr__(self, "duration", float(probe["format"]["duration"]))
+        object.__setattr__(self, "duration", duration)
         object.__setattr__(self, "streams", tuple(tracks))
 
     def __fspath__(self) -> str:
